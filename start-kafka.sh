@@ -26,6 +26,10 @@ if [[ -z "$KAFKA_ADVERTISED_HOST_NAME" && -n "$HOSTNAME_COMMAND" ]]; then
     export KAFKA_ADVERTISED_HOST_NAME=$(eval $HOSTNAME_COMMAND)
 fi
 
+if [[ -n "$KAFKA_LOG_LEVEL" ]]; then
+    sed -i "s/INFO/$KAFKA_LOG_LEVEL/g" $KAFKA_HOME/config/log4j.properties
+fi
+
 for VAR in `env`
 do
   if [[ $VAR =~ ^KAFKA_ && ! $VAR =~ ^KAFKA_HOME ]]; then
